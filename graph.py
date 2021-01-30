@@ -10,13 +10,15 @@ class Edge:
 
 class Graph:
 
-    def __init__(self, vertices):
-        self.V = vertices
+    def __init__(self):
         self.graph = []
 
     def addEdge(self, u, v, w):
-        edge = Edge(u, v, w)
-        self.graph.append(edge)
+        if isinstance(u, int) & isinstance(v, int):
+            edge = Edge(u, v, w)
+            self.graph.append(edge)
+        else:
+            raise TypeError('Nieprawidlowy typ zmiennej u lub v')
 
     def display(self):
         for i in range(len(self.graph)):
@@ -34,7 +36,7 @@ class Graph:
         subsets = list()
 
         # Dla każdego wierzchołka stwórz zbiór
-        for i in range(self.V):
+        for i in range(len(self.graph)):
 
             subsets.append(Set())
             subsets[i].add(i+1)
@@ -44,16 +46,15 @@ class Graph:
         sortedEdges = sorted(
             self.graph, key=lambda Edge: Edge.w, reverse=False)
 
-        for i in range(len(sortedEdges)):
+        for e in sortedEdges:
 
-            x = self.findInSet(subsets, sortedEdges[i].u)
-            y = self.findInSet(subsets, sortedEdges[i].v)
+            x = self.findInSet(subsets, e.u)
+            y = self.findInSet(subsets, e.v)
 
             # Sprawdzanie czy dwa wierzhołki należą do tego samego zbioru
             if x != y:
 
-                A.append(sortedEdges[i])
-
+                A.append(e)
                 subsets[x-1].union(subsets[y-1])
 
         return A
