@@ -7,6 +7,14 @@ class Edge:
         self.v = v
         self.w = w
 
+    def __str__(self):
+        return '({self.u},{self.v},{self.w})'.format(self=self)
+
+    def __eq__(self, other):
+        if isinstance(self, other.__class__):
+            return self.u == other.u and self.v == other.v and self.w == other.w
+        return False
+
 
 class Graph:
 
@@ -22,8 +30,7 @@ class Graph:
 
     def display(self):
         for i in range(len(self.graph)):
-            print(str(self.graph[i].u) + ", " + str(self.graph[i].v)
-                  + ", " + str(self.graph[i].w))
+            print(self.graph[i])
 
     def findInSet(self, subsets, vertex):
         for i in range(len(subsets)):
@@ -32,21 +39,19 @@ class Graph:
         return -1
 
     def Kruskal(self):
-        A = []
+        mst = []
         subsets = list()
 
-        # Dla każdego wierzchołka stwórz zbiór
         for i in range(len(self.graph)):
 
             subsets.append(Set())
             subsets[i].add(i+1)
 
         # Posortować liste krawędzi rosnąco
-        sortedEdges = []
-        sortedEdges = sorted(
-            self.graph, key=lambda Edge: Edge.w, reverse=False)
 
-        for e in sortedEdges:
+        self.graph.sort(key=lambda Edge: Edge.w, reverse=False)
+
+        for e in self.graph:
 
             x = self.findInSet(subsets, e.u)
             y = self.findInSet(subsets, e.v)
@@ -54,7 +59,7 @@ class Graph:
             # Sprawdzanie czy dwa wierzhołki należą do tego samego zbioru
             if x != y:
 
-                A.append(e)
+                mst.append(e)
                 subsets[x-1].union(subsets[y-1])
 
-        return A
+        return mst

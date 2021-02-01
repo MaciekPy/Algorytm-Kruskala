@@ -21,13 +21,6 @@ class Set:
             return True
         return False
 
-    def pop(self, num):
-        self.set.pop(num)
-
-    def top(self):
-        print(self.set[0])
-        return self.set[0]
-
     def union(self, other):
         for i in range(len(other.set)):
             self.set.append(other.set[i])
